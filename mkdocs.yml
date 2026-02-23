@@ -1,0 +1,89 @@
+site_name: Minecraft Speedrun Guide
+site_url: https://sullivanxiong.github.io/minecraft-speedrun-guide/
+site_description: Data-driven Minecraft speedrunning guide with validated math and strategies
+site_author: Sullivan Xiong
+repo_url: https://github.com/SullivanXiong/minecraft-speedrun-guide
+repo_name: SullivanXiong/minecraft-speedrun-guide
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - toc.integrate
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.details
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.keys
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Setup: getting-started/setup.md
+      - Terminology: getting-started/terminology.md
+  - Overworld:
+      - Village Strategies: overworld/village-strategies.md
+      - Crafting Decisions: overworld/crafting-decisions.md
+      - Terrain Navigation: overworld/terrain-navigation.md
+      - Portal Strategies: overworld/portal-strategies.md
+  - Nether:
+      - Bastion Routing: nether/bastion-routing.md
+      - Fortress Strategies: nether/fortress-strategies.md
+      - Gold Trading: nether/gold-trading.md
+  - Stronghold:
+      - Triangulation: stronghold/triangulation.md
+      - Navigation: stronghold/navigation.md
+  - The End:
+      - One-Cycle: end/one-cycle.md
+      - Dragon Fight: end/dragon-fight.md
+  - Data:
+      - Block Mining Speeds: data/block-mining-speeds.md
+      - Drop Rates: data/drop-rates.md
+      - Time Calculations: data/time-calculations.md
+  - About: about.md
