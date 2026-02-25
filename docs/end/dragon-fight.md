@@ -64,6 +64,8 @@ The Ender Dragon has **200 HP** and is **immune to critical hits**. This changes
 | Weapon | Damage/Hit | Cooldown | DPS (full charge) | Hits to Kill |
 |--------|-----------|----------|-------------------|-------------|
 | Diamond Sword | 7 | 0.625s | 11.2 | 29 |
+| Stone Axe | 9 | 1.25s | 7.2 | 23 |
+| Iron Axe | 9 | 1.11s | 8.1 | 23 |
 | Diamond Axe | 9 | 1.00s | 9.0 | 23 |
 | Netherite Axe | 10 | 1.00s | 10.0 | 20 |
 
