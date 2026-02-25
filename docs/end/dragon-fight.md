@@ -47,82 +47,44 @@ So when the bar looks 85% full, you're dealing 85% damage. The bar itself is acc
 !!! note "Visual Lag"
     The indicator display uses `clamp(t / T, 0, 1)` while actual damage uses `clamp((t + 0.5) / T, 0, 1)`. The display lags by half a game tick. At 20 TPS, this is a 25ms discrepancy — negligible in practice but technically present.
 
-### Critical Hit Requirements
-
-To perform a critical hit in 1.16.1, **all** conditions must be met simultaneously:
-
-1. **Falling** — you must be in the downward arc of a jump (or falling off a block)
-2. **Not on the ground** — cannot be touching floor, ladder, or vine
-3. **Not in water** — swimming prevents crits (lava does not)
-4. **No Blindness effect** — the status effect blocks crits
-5. **Attack charge ≥ 84.8%** — the damage multiplier must be at least 0.848
-
-Critical hits deal **1.5x damage** (applied after Strength effects, before enchantment damage).
-
-!!! abstract "The 84.8% Threshold Explained"
-    The wiki states crits require "84.8% attack cooldown." This number comes from the quadratic formula at 90% linear charge:
-
-    \[
-    0.2 + 0.8 \times (0.9)^2 = 0.2 + 0.648 = 0.848
-    \]
-
-    The game likely checks if linear charge \( p \geq 0.9 \), which produces 84.8% damage output. You **can** crit before 100% charge, but the 1.5x multiplier applies to the reduced damage — so a crit at 84.8% does less than a crit at 100%.
-
-    | Scenario | Base Damage | × Crit | Total |
-    |----------|-------------|--------|-------|
-    | 100% charge, no crit | 1.00 | — | 1.00× |
-    | 84.8% charge, crit | 0.848 | × 1.5 | 1.27× |
-    | 100% charge, crit | 1.00 | × 1.5 | 1.50× |
-
-    A rushed crit at 84.8% is still better than a non-crit at 100%, but a full-charge crit at 100% is **18% stronger** than a rushed crit.
-
-### Sprint-Knockback vs Critical Hit
-
-In Java 1.16.1, sprinting and critting are **mutually exclusive on the first hit**:
-
-- If you're sprinting, your first hit triggers a sprint-knockback attack instead of a critical hit
-- Sprint-knockback deals no extra damage — it only increases knockback
-- **Exception**: After the first sprint-knockback, subsequent hits while holding sprint **can** be critical hits
-
-For the dragon fight, this means: release sprint before your first hit if you want it to crit.
-
 ## Axe Damage in 1.16.1
 
-| Axe | Base Damage | Attack Speed | Cooldown | Max Crit Damage |
-|-----|------------|-------------|----------|-----------------|
-| Wooden | 7 | 0.8 | 1.25s | 10.5 |
-| Stone | 9 | 0.8 | 1.25s | 13.5 |
-| Iron | 9 | 0.9 | 1.11s | 13.5 |
-| Diamond | 9 | 1.0 | 1.00s | 13.5 |
-| Netherite | 10 | 1.0 | 1.00s | 15.0 |
+| Axe | Base Damage | Attack Speed | Cooldown |
+|-----|------------|-------------|----------|
+| Wooden | 7 | 0.8 | 1.25s |
+| Stone | 9 | 0.8 | 1.25s |
+| Iron | 9 | 0.9 | 1.11s |
+| Diamond | 9 | 1.0 | 1.00s |
+| Netherite | 10 | 1.0 | 1.00s |
 
 ### Axe vs Sword for the Dragon
 
-The Ender Dragon has **200 HP**. The tradeoff:
+The Ender Dragon has **200 HP** and is **immune to critical hits**. This changes the weapon calculus compared to normal mobs — you cannot get the 1.5x crit multiplier, so raw DPS at full charge is all that matters.
 
-| Weapon | Damage/Hit | Cooldown | DPS (full charge) | Hits to Kill (crits) |
-|--------|-----------|----------|-------------------|---------------------|
-| Diamond Sword | 7 | 0.625s | 11.2 | 20 |
-| Diamond Axe | 9 | 1.00s | 9.0 | 15 |
-| Netherite Axe | 10 | 1.00s | 10.0 | 14 |
+| Weapon | Damage/Hit | Cooldown | DPS (full charge) | Hits to Kill |
+|--------|-----------|----------|-------------------|-------------|
+| Diamond Sword | 7 | 0.625s | 11.2 | 29 |
+| Diamond Axe | 9 | 1.00s | 9.0 | 23 |
+| Netherite Axe | 10 | 1.00s | 10.0 | 20 |
+
+The sword has higher DPS because its faster attack speed (1.6 vs 1.0) more than compensates for its lower per-hit damage. Against the dragon specifically, where crits don't apply, the sword's faster cooldown is a clear advantage for sustained melee.
 
 !!! tip "Speedrun Context"
-    In a one-cycle bed strat, the axe is typically used for **finishing hits** between bed explosions, not as the primary damage source. Beds deal 100 damage each in the End. The axe matters most when you need 1-2 clean hits to finish the dragon after beds.
+    In a one-cycle bed strat, the axe is typically used for **finishing hits** between bed explosions, not as the primary damage source. Beds deal up to 100 damage each in the End. The weapon matters most when you need 1-2 clean hits to finish the dragon after beds.
 
-    With a diamond axe at full charge + crit: `9 × 1.5 = 13.5 damage`. Two crits = 27 damage — enough to close out after 6 bed explosions (approximately 600 raw damage, reduced by positioning variance).
+    With a diamond axe at full charge: 9 damage. Two full-charge hits = 18 damage — enough to close out after bed explosions have done the heavy lifting.
 
 ## Optimal Dragon Fight Rhythm
 
-When axing the dragon during a perch:
+When hitting the dragon during a perch:
 
 1. **Wait for full charge** — always. The quadratic penalty for early swings is severe.
-2. **Jump-crit rhythm** — jump, hit the head on the way down, wait 1 full second, repeat
-3. **Aim for the head** — headshots deal more damage than body hits
-4. **Release sprint before the first hit** — otherwise you get sprint-knockback instead of a crit
-5. **Position inside the bedrock rim** — reduces the chance of being flung by wings
+2. **Aim for the head** — headshots deal more damage than body hits
+3. **Position inside the bedrock rim** — reduces the chance of being flung by wings
+4. **Consistent timing** — swing, wait for the bar to fill completely, swing again. Don't rush.
 
-The rhythm is: jump → swing on descent → land → wait for full bar → jump → swing → repeat.
+The rhythm is: swing → wait for full bar → swing → repeat. With a diamond axe, that's one swing per second.
 
 ---
 
-*Damage formula and attack speed values sourced from [Minecraft Wiki — Damage](https://minecraft.wiki/w/Damage) and [Minecraft Wiki — Melee Attack](https://minecraft.wiki/w/Melee_attack). Critical hit mechanics from [Minecraft Wiki — Critical Hit](https://minecraft.wiki/w/Critical_hit). Axe stats from [Minecraft Wiki — Axe](https://minecraft.wiki/w/Axe). All values verified for Java Edition 1.16.1.*
+*Damage formula and attack speed values sourced from [Minecraft Wiki — Damage](https://minecraft.wiki/w/Damage) and [Minecraft Wiki — Melee Attack](https://minecraft.wiki/w/Melee_attack). Axe stats from [Minecraft Wiki — Axe](https://minecraft.wiki/w/Axe). All values verified for Java Edition 1.16.1.*
